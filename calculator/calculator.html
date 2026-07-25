@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+       body 
+    {
+        padding: 0;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        height: 100vh;
+        position: absolute;
+        width: 100%;
+        background-color: #bec7cd;
+    }
+        .container
+        {
+            height: 530px;
+            width: 300px;
+            background-color: #ffffff;
+            /* border: 1px solid; */
+            border-radius: 20px;
+            box-shadow: 1rem 1rem 1.6rem #12469a, -0.6rem -0.6rem 1.6rem #8d74d6;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            justify-content: center;
+        .pad
+        {
+            height: 320px;
+            width: 270px;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            & button {
+           position: relative;
+           height: 52px;
+           width: 52px;
+           margin: 5px;
+           border-radius:100% ;
+           cursor: pointer;
+           font-size: 1.2rem;
+           font-weight: bolder;
+           border: none;
+           background-color: #54a9f3;
+           /* box-shadow: 1px 1px 10px rgb(0, 0, 0, .5), -3px -3px 10px #ffff; */
+           box-shadow: 1rem 1rem 1.6rem #d1d9e6, -0.6em -0.6rem 1.6rem #fff;
+            }
+        }
+        }
+        
+        .display{
+            position: relative;
+            height: 60px;
+            width: 270px;
+            background-color: azure;
+            border-radius: 20px;
+            align-items: right;
+            justify-content: right;
+            margin: 30px 15px;
+            text-align: right;
+            right: 0;
+            font-size: 50px;
+            box-shadow: 1px 1px 10px rgba(247, 28, 130, 0.5), -3px -3px 10px #e83da1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">         
+        <div class="display"><p id="display">0</p></div>         
+        <div class="pad">             
+            <button onclick="clearDisplay()">CL</button>             
+            <button onclick="deleteLast()">DEL</button>             
+            <button onclick="appendSymbol('%')">%</button>             
+            <button onclick="appendSymbol('/')">/</button>             
+            <button onclick="appendSymbol('7')">7</button>             
+            <button onclick="appendSymbol('8')">8</button>             
+            <button onclick="appendSymbol('9')">9</button>             
+            <button onclick="appendSymbol('*')">*</button>             
+            <button onclick="appendSymbol('4')">4</button>             
+            <button onclick="appendSymbol('5')">5</button>             
+            <button onclick="appendSymbol('6')">6</button>             
+            <button onclick="appendSymbol('-')">-</button>             
+            <button onclick="appendSymbol('1')">1</button>             
+            <button onclick="appendSymbol('2')">2</button>             
+            <button onclick="appendSymbol('3')">3</button>             
+            <button onclick="appendSymbol('+')">+</button>             
+            <button onclick="appendSymbol('.')">.</button>             
+            <button onclick="appendSymbol('0')">0</button>             
+            <button onclick="appendSymbol('00')">00</button>             
+            <button class="equal" onclick="calculateResult()">=</button>             
+        
+        </div>     
+    </div>
+    
+    <script>
+        let currentInput = "0";
+    
+        function clearDisplay() {
+            currentInput = "0";
+            updateDisplay();
+        }
+    
+        function deleteLast() {
+            currentInput = currentInput.length > 1 ? currentInput.slice(0, -1) : "0";
+            updateDisplay();
+        }
+    
+        function appendSymbol(symbol) {
+            if (currentInput === "0") {
+                currentInput = symbol;
+            } else {
+                currentInput += symbol;
+            }
+            updateDisplay();
+        }
+    
+        function calculateResult() {
+            try {
+                // Evaluate the expression using eval
+                currentInput = eval(currentInput.replace(/Math\.(sin|cos|tan)\(([^)]+)\)/g, function(match, func, arg) {
+                    return `Math.${func}(${arg * Math.PI / 180})`; // Convert degrees to radians
+                })).toString();
+            } catch (e) {
+                currentInput = "Error";
+            }
+            updateDisplay();
+        }
+    
+        function updateDisplay() {
+            document.getElementById("display").innerText = currentInput;
+        }
+    </script>
+    
+    
+</body>
+</html>
